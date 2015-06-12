@@ -1,4 +1,6 @@
-# implement 3-tier pattern (data, business logic, presentation kept separate)
+"""This module declares abstract base classes useful for laying out a 3-tier
+software architecture"""
+
 
 import abc
 
@@ -34,6 +36,7 @@ class LogicTier(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def process_and_store(self, key, data, func=lambda x: x):
+        """Process the `data` parameter with `func`, and store it at `key`"""
         self.data_tier.store(key, func(data))
 
 
@@ -46,13 +49,13 @@ class PresentationTier(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def interact(self):
+        """Interact with the user once"""
         string = input('> ')
         tokens = string.split()
         if tokens[0] == 'load' and len(tokens) == 2:
-            print('data at {} is {}'.format(repr(tokens[1]),
-                                            repr(
-                                                self.logic_tier.process_and_load(
-                                                    tokens[1]))))
+            print('data at {} is {}'.format(
+                repr(tokens[1]),
+                repr(self.logic_tier.process_and_load(tokens[1]))))
         elif tokens[0] == 'store' and len(tokens) == 3:
             self.logic_tier.process_and_store(tokens[1], tokens[2])
             print('datum {} stored at {}'.format(repr(tokens[2]),
