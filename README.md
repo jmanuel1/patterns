@@ -11,3 +11,7 @@ Current list of patterns
 ### Architectural
 
 * `threetier` - [3-tier architecture](http://en.wikipedia.org/wiki/Multitier_architecture)
+
+### Creational
+
+* 'abstractf` - [abstract factory](https://en.wikipedia.org/wiki/Abstract_factory_pattern)
