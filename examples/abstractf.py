@@ -1,3 +1,6 @@
+"""Abstract factory example."""
+
+
 import abc
 import argparse
 from patterns.abstractf import AbstractFactory
@@ -5,27 +8,38 @@ from patterns.abstractf import AbstractFactory
 
 class Greeting(metaclass=abc.ABCMeta):
 
+    """Abstract greeting class."""
+
     def __init__(self):
+        """Make a Greeting object."""
         pass
 
     @abc.abstractmethod
     def greet(self):
+        """Print greeting to sys.stdout (abstract method)."""
         pass
 
 
 class EnglishGreeting(Greeting):
 
+    """English greeting class."""
+
     def greet(self):
+        """Print English greeting to sys.stdout."""
         print('Hello!')
 
 
 class MandarinGreeting(Greeting):
 
+    """Mandarin greeting class."""
+
     def greet(self):
+        """Print Mandarin greeting to sys.stdout."""
         print('Ni hao!')
 
 
 def chooser():
+    """Abstract factory chooser."""
     if lang == 'english':
         return EnglishGreeting
     elif lang == 'mandarin':

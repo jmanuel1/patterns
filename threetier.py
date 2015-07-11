@@ -1,55 +1,68 @@
-"""This module declares abstract base classes useful for laying out a 3-tier
-software architecture"""
+"""Abstract base classes for laying out a 3-tier software architecture."""
 
 
 import abc
 
 
 class DataTier(metaclass=abc.ABCMeta):
-    """Data tier - controls storage and retrieval of data"""
+
+    """Data tier - controls storage and retrieval of data."""
 
     @abc.abstractmethod
     def __init__(self, data_store):
+        """
+        Make a new DataTier object.
+
+        `data_store` is the actual storage for the object to use.
+        """
         self.data_store = data_store
 
     @abc.abstractmethod
     def store(self, key, data):
-        """Store some data"""
+        """Store some data."""
         pass
 
     @abc.abstractmethod
     def retrieve(self, key):
-        """Retrieve some data"""
+        """Retrieve some data."""
         pass
 
 
 class LogicTier(metaclass=abc.ABCMeta):
-    """Business logic tier - where the data processing is"""
+
+    """Business logic tier - where the data processing is."""
 
     def __init__(self, data_tier):
+        """
+        Make a LogicTier object.
+
+        `data_tier` is the DataTier object to base the new object on.
+        """
         self.data_tier = data_tier
 
     @abc.abstractmethod
     def process_and_load(self, key, func=lambda x: x):
-        """Process the data at a given key"""
+        """Process the data at a given key."""
         return func(self.data_tier.retrieve(key))
 
     @abc.abstractmethod
     def process_and_store(self, key, data, func=lambda x: x):
-        """Process the `data` parameter with `func`, and store it at `key`"""
+        """Process the `data` parameter with `func`, and store it at `key`."""
         self.data_tier.store(key, func(data))
 
 
 class PresentationTier(metaclass=abc.ABCMeta):
-    """Presentation tier - the user-facing stuff"""
+
+    """Presentation tier - the user-facing stuff."""
 
     @abc.abstractmethod
     def __init__(self):
+        """Make a PresentationTier object."""
         self.logic_tier = LogicTier(DataTier(None))
 
     @abc.abstractmethod
     def interact(self):
-        """Interact with the user once"""
+        """Interact with the user once."""
         string = input('> ')
         tokens = string.split()
         if tokens[0] == 'load' and len(tokens) == 2:
